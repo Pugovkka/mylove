@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>8 месяцев нашей любви ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #ffe6f0 0%, #ffccdd 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Падающие сердечки */
+        .heart-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart-fall {
+            position: absolute;
+            color: rgba(255, 80, 120, 0.3);
+            font-size: 20px;
+            animation: fall linear infinite;
+            user-select: none;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(2px);
+            border-radius: 60px 60px 80px 80px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px 30px 50px;
+            text-align: center;
+            z-index: 10;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .badge {
+            background: #ff4d6d;
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 100px;
+            color: white;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #2d1b2e;
+            margin-bottom: 10px;
+        }
+
+        .months {
+            color: #ff4d6d;
+            display: block;
+            font-size: 1.8rem;
+        }
+
+        /* ГАЛЕРЕЯ ФОТОГРАФИЙ */
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .photo-card {
+            width: 180px;
+            height: 180px;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 15px 25px -10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            background: #ffeef2;
+            border: 3px solid white;
+        }
+
+        .photo-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 30px -8px rgba(0, 0, 0, 0.3);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Заглушка, если фото не загрузилось */
+        .photo-card .no-photo {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(145deg, #ffb3c6, #ff8faa);
+            font-size: 3rem;
+        }
+
+        .message {
+            background: #fff9fb;
+            padding: 25px;
+            border-radius: 48px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .message p {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: #2b1a2a;
+            margin-bottom: 15px;
+        }
+
+        .signature {
+            text-align: right;
+            font-weight: 600;
+            color: #ff4d6d;
+            margin-top: 10px;
+        }
+
+        .counter-box {
+            background: #ffecf0;
+            border-radius: 60px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .days-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #c9184a;
+        }
+
+        .promises {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .promise-item {
+            background: #ffeef2;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #9e2a4b;
+        }
+
+        .surprise-btn {
+            background: white;
+            border: 2px solid #ff8faa;
+            padding: 12px 25px;
+            border-radius: 60px;
+            font-weight: 700;
+            color: #b13e5c;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .surprise-btn:hover {
+            background: #ff4d6d;
+            border-color: #ff4d6d;
+            color: white;
+        }
+
+        /* Модальное окно для увеличения фото */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255,255,255,0.3);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 0.75rem;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 550px) {
+            .photo-card {
+                width: 130px;
+                height: 130px;
+            }
+            h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="heart-bg" id="heartContainer"></div>
+
+<div class="card">
+    <div class="badge">❤️ 8 МЕСЯЦЕВ ЛЮБВИ ❤️</div>
+    <h1>
+        Мы вместе <span class="months">8 месяцев!</span>
+    </h1>
+    <div class="date-anniversary" id="dateDisplay"></div>
+
+    <!-- ГАЛЕРЕЯ ФОТОГРАФИЙ -->
+    <div class="gallery" id="photoGallery">
+        <!-- СЮДА ДОБАВЬ СВОИ ФОТОГРАФИИ -->
+        <!-- ЗАМЕНИ 'your_photo1.jpg' НА НАЗВАНИЯ ТВОИХ ФАЙЛОВ -->
+    </div>
+
+    <div class="message">
+        <p>✨ Моя любимая, <strong id="girlName">[Имя девушки]</strong>! ✨</p>
+        <p>Восемь месяцев — это уже целая маленькая вечность счастья. Каждый день рядом с тобой — как самый красивый фильм, который я смотрю взахлёб.</p>
+        <p>Спасибо за твои глаза, в которых я вижу своё будущее, за твой смех, который лечит любые плохие дни, и за то, что ты просто есть.</p>
+        <p>Я люблю тебя больше, чем вчера, но меньше, чем завтра. ❤️</p>
+        <div class="signature">Навсегда твой, <strong id="boyName">[Твоё имя]</strong></div>
+    </div>
+
+    <div class="counter-box">
+        <div>⏳ МЫ ВМЕСТЕ УЖЕ</div>
+        <div class="days-number" id="daysCounter">--</div>
+        <div>дней чистого счастья 💕</div>
+    </div>
+
+    <button class="surprise-btn" id="surpriseBtn">
+        🎵 Наша песня 🎵
+    </button>
+    <footer>Бесконечно люблю</footer>
+</div>
+
+<!-- Модальное окно для фото -->
+<div id="modal" class="modal">
+    <span class="close-modal">&times;</span>
+    <img id="modalImg" src="">
+</div>
+
+<script>
+    // ========== НАСТРОЙКИ (ИЗМЕНИ ПОД СЕБЯ) ==========
+    
+    // 1. ДАТА НАЧАЛА ОТНОШЕНИЙ (год, месяц-1, день)
+    const START_DATE = new Date(2025, 9, 10);  // ЗДЕСЬ ИЗМЕНИ!
+    
+    // 2. ВАШИ ИМЕНА
+    const GIRL_NAME = "Настенька";      // 👈 Имя девушки
+    const BOY_NAME = "Никита";    // 👈 Твоё имя
+    
+    // 3. ФОТОГРАФИИ — ДОБАВЬ СВОИ СЮДА!
+    //    Положи фото в ту же папку, где этот HTML-файл.
+    //    Названия файлов напиши ниже (можно сколько угодно)
+    const PHOTOS = [
+        { src: "photo1.jpg", alt: "Наше первое фото" },
+        { src: "photo2.jpg", alt: "Счастливые вместе" },
+        { src: "photo3.jpg", alt: "Любимая улыбка" },
+        { src: "photo4.jpg", alt: "Наш классный момент" },
+        // Добавляй сколько хочешь! Просто копируй строчки:
+        // { src: "photo5.jpg", alt: "Описание" },
+    ];
+    
+    // 4. ССЫЛКА НА ВАШ ПЛЕЙЛИСТ/ПЕСНЮ
+    const SONG_URL = "https://music.youtube.com/watch?v=example"; // замени!
+    
+    // ========== КОД (ничего не трогай) ==========
+    
+    // Заполняем имена
+    document.getElementById('girlName').textContent = GIRL_NAME;
+    document.getElementById('boyName').textContent = BOY_NAME;
+    
+    // Отображаем дату начала
+    const dateDisplay = document.getElementById('dateDisplay');
+    if (dateDisplay && START_DATE) {
+        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        dateDisplay.innerHTML = `🎀 вместе с ${START_DATE.toLocaleDateString('ru-RU', options)} 🎀`;
+        dateDisplay.style.background = "#fff0f3";
+        dateDisplay.style.display = "inline-block";
+        dateDisplay.style.padding = "8px 18px";
+        dateDisplay.style.borderRadius = "60px";
+        dateDisplay.style.color = "#c9184a";
+        dateDisplay.style.fontWeight = "600";
+        dateDisplay.style.margin = "20px 0";
+    }
+    
+    // Счётчик дней
+    function updateDaysCounter() {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const start = new Date(START_DATE);
+        start.setHours(0, 0, 0, 0);
+        const diffDays = Math.floor((today - start) / (1000 * 60 * 60 * 24));
+        const counterEl = document.getElementById('daysCounter');
+        if (diffDays >= 0) counterEl.textContent = diffDays;
+        else counterEl.textContent = "0";
+    }
+    updateDaysCounter();
+    setInterval(updateDaysCounter, 3600000);
+    
+    // Загружаем фотографии в галерею
+    const gallery = document.getElementById('photoGallery');
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modalImg');
+    const closeModal = document.querySelector('.close-modal');
+    
+    if (PHOTOS.length === 0) {
+        // Если нет фото — показываем заглушку
+        gallery.innerHTML = '<div class="photo-card"><div class="no-photo">📸<br>добавь<br>фото!</div></div>';
+    } else {
+        PHOTOS.forEach(photo => {
+            const photoCard = document.createElement('div');
+            photoCard.className = 'photo-card';
+            const img = document.createElement('img');
+            img.src = photo.src;
+            img.alt = photo.alt;
+            img.onerror = function() {
+                // если фото не найдено — показываем эмодзи
+                this.style.display = 'none';
+                const fallback = document.createElement('div');
+                fallback.className = 'no-photo';
+                fallback.innerHTML = '📷';
+                photoCard.appendChild(fallback);
+            };
+            photoCard.appendChild(img);
+            photoCard.onclick = () => {
+                modal.style.display = 'flex';
+                modalImg.src = photo.src;
+            };
+            gallery.appendChild(photoCard);
+        });
+    }
+    
+    // Закрыть модальное окно
+    modal.onclick = () => modal.style.display = 'none';
+    closeModal.onclick = () => modal.style.display = 'none';
+    
+    // Кнопка-сюрприз (песня)
+    document.getElementById('surpriseBtn').onclick = () => {
+        alert(`💖 ${GIRL_NAME}, эта песня — для нас! 💖\nНаши 8 месяцев — это только начало.`);
+        window.open(SONG_URL, '_blank');
+    };
+    
+    // Падающие сердечки
+    const heartContainer = document.getElementById('heartContainer');
+    const hearts = ['❤️', '💖', '💗', '💕', '💞', '🌸', '✨'];
+    for (let i = 0; i < 50; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart-fall';
+        heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.left = Math.random() * 100 + '%';
+        heart.style.fontSize = (Math.random() * 20 + 12) + 'px';
+        heart.style.animationDuration = (Math.random() * 7 + 4) + 's';
+        heart.style.animationDelay = (Math.random() * 10) + 's';
+        heart.style.opacity = Math.random() * 0.4;
+        heartContainer.appendChild(heart);
+    }
+</script>
+</body>
+</html>
